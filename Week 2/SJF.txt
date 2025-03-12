@@ -1,0 +1,54 @@
+int main()
+{
+    int n, i;
+
+    float wtavg = 0, tatavg = 0;
+   int temp;
+    printf("Enter total number of processes: ");
+    scanf("%d", &n);
+     int p[n],bt[n], wt[n], tat[n];
+    for (i = 0; i < n; i++) {
+        printf("Enter Burst Time for Process %d: ", i+1 );
+        scanf("%d", &bt[i]);
+        p[i]=i+1;
+    }
+
+    wt[0] = 0;
+    tat[0] = bt[0];
+    for(int i=0;i<n;i++)
+    {
+        for(int j=i;i<n;j++)
+        {
+
+            if(bt[i]>bt[j])
+            {
+                temp=bt[i];
+                bt[i]=bt[j];
+                bt[j]=bt[i];
+
+                temp=p[i];
+                p[i]=p[j];
+                p[j]=temp;
+            }
+        }
+    }
+     for (i = 1; i < n; i++)
+        {
+        wt[i] = wt[i - 1] + bt[i - 1];
+        tat[i] = tat[i - 1] + bt[i];
+        wtavg += wt[i];
+        tatavg += tat[i];
+        }
+
+    wtavg /= n;
+    tatavg+=tat[0];
+    tatavg/=n;
+
+    printf("\nProcess\tBurst Time\tWaiting Time\tTurnaround Time\n");
+    for (i = 0; i < n; i++) {
+        printf("P%d\t%d\t\t%d\t\t%d\n", i + 1, bt[i], wt[i], tat[i]);
+    }
+
+    printf("\nAverage Waiting Time = %.2f", wtavg);
+    printf("\nAverage Turnaround Time = %.2f", tatavg);
+}
