@@ -1,0 +1,59 @@
+#include<stdio.h>
+void main()
+{
+
+    int n;
+    float wtavg=0.0,tatavg=0.0;
+    printf("\n Enter no. of processes");
+    scanf("%d",&n);
+    int q[n],tat[n],bt[n],wt[n],p[n];
+    for(int i=0;i<n;i++)
+    {
+        printf("\n Enter the burst time for process %d (Enter 1 for System process 2 for User process) ",(i+1));
+        scanf("%d %d",&bt[i],&q[i]);
+        p[i]=i+1;
+    }
+    for(int i=0;i<n-1;i++)
+    {
+        for(int j=0;j<n-i-1;j++)
+        {
+            if(q[j]>q[j+1])
+            {
+                int temp=bt[j];
+                bt[j]=bt[j+1];
+                bt[j+1]=temp;
+
+                temp=q[j];
+                q[j]=q[j+1];
+                q[j+1]=temp;
+
+                temp=p[j];
+                p[j]=p[j+1];
+                p[j+1]=temp;
+
+
+            }
+        }
+    }
+     tat[0]=bt[0];
+     wt[0]=0;
+     for(int i=1;i<n;i++)
+     {
+         wt[i]=wt[i-1]+bt[i-1];
+         tat[i]=wt[i]+bt[i];
+         wtavg+=wt[i];
+         tatavg+=tat[i];
+
+
+     }
+     tatavg=tatavg+tat[0];
+     printf("\n Process\tQueue type\tBurst Time\tTurnaround time\tWaiting time");
+     for(int i=0;i<n;i++)
+     {
+         printf("\n Process%d\t\t%d\t\t%d\t\t%d\t\t%d",p[i],q[i],bt[i],tat[i],wt[i]);
+     }
+     printf("\n Waiting time average =%.2f",(wtavg/n));
+     printf("\n Turn around time average =%.2f",(tatavg/n));
+
+
+}
